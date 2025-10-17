@@ -8,7 +8,7 @@ from typing import Any, Protocol, cast, runtime_checkable
 
 import numpy as np
 
-from design_metrics.utils.array import FloatArray
+from design_metrics.utils import FloatArray
 
 
 @runtime_checkable

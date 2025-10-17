@@ -12,7 +12,7 @@ from math import sqrt
 import numpy as np
 from numpy.typing import ArrayLike
 
-from design_metrics.utils.array import FloatArray, ensure_1d_array
+from design_metrics.utils import FloatArray, ensure_1d_array
 
 
 def _validate_samples(sample_a: FloatArray, sample_b: FloatArray) -> None:

@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from design_metrics.utils.array import FloatArray, ensure_2d_array
+from design_metrics.utils import FloatArray, ensure_2d_array
 
 
 def cronbach_alpha(responses: pd.DataFrame | FloatArray) -> float:

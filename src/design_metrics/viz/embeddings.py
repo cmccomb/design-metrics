@@ -7,7 +7,7 @@ from typing import Literal, cast
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
-from design_metrics.utils.array import FloatArray
+from design_metrics.utils import FloatArray
 
 
 def reduce_embeddings_pca(
