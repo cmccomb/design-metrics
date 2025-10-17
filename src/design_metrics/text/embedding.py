@@ -58,9 +58,7 @@ def specter2_embed(
     else:
         runtime_model = model
 
-    embeddings = np.asarray(
-        runtime_model.encode(list(texts), convert_to_numpy=True)
-    )
+    embeddings = np.asarray(runtime_model.encode(list(texts), convert_to_numpy=True))
     if normalize:
         norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
         norms[norms == 0] = 1.0

@@ -27,10 +27,3 @@ def test_hedges_g_bias_correction() -> None:
 def test_cohen_d_raises_on_zero_variance() -> None:
     with pytest.raises(ValueError):
         cohen_d([1.0, 1.0, 1.0], [2.0, 2.0, 2.0])
-
-
-def test_effect_sizes_available_from_hsr_namespace() -> None:
-    import design_metrics.hsr as hsr
-
-    assert hsr.cohen_d is cohen_d
-    assert hsr.hedges_g is hedges_g

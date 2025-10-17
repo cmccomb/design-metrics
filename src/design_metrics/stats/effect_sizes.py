@@ -92,7 +92,7 @@ def hedges_g(sample_a: ArrayLike, sample_b: ArrayLike) -> float:
         raise ValueError("At least two observations are required in total.")
 
     correction = 1 - (3 / (4 * degrees_of_freedom - 1))
-    return cohen_d(array_a, array_b) * correction
+    return float(cohen_d(array_a, array_b) * correction)
 
 
 __all__ = ["cohen_d", "hedges_g"]

@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import Literal, cast
 
 import numpy as np
-from sklearn.decomposition import PCA  # type: ignore[import-untyped]
-from sklearn.manifold import TSNE  # type: ignore[import-untyped]
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 
 
 def reduce_embeddings_pca(
