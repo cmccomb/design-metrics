@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "design-metrics"
+version = "0.1.0"
+description = "Unified metrics library for design research"
+readme = "README.md"
+authors = [{name = "Design Metrics Team"}]
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=1.5",
+    "networkx>=3.0",
+    "pypdf>=4.0",
+    "scikit-learn>=1.2",
+]
+
+[project.optional-dependencies]
+text = ["sentence-transformers>=2.2"]
+
+[project.urls]
+Homepage = "https://example.com/design-metrics"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers"
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S", "N", "ANN", "DTZ"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["design_metrics"]
+
+[tool.coverage.run]
+branch = true
+source = ["design_metrics"]
