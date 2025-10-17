@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, TypeAlias, cast
+from typing import Literal, cast
 
-import numpy as np
-from numpy.typing import NDArray
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
-FloatArray: TypeAlias = NDArray[np.floating[Any]]
+from design_metrics.utils import FloatArray
 
 
 def reduce_embeddings_pca(
