@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -11,15 +12,17 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
+from design_metrics.utils import FloatArray
+
 
 @dataclass
 class TopicModelResult:
     """Structured topic model output for downstream analysis."""
 
     model_type: str
-    topic_term_matrix: np.ndarray
+    topic_term_matrix: FloatArray
     feature_names: Sequence[str]
-    doc_topic_matrix: np.ndarray
+    doc_topic_matrix: FloatArray
     document_ids: Sequence[str]
     metadata: dict[str, object]
 
@@ -80,11 +83,14 @@ def fit(
             "Unsupported model. Choose from 'lda', 'ctfidf', or 'bertopic'."
         )
 
+    topic_term_array = cast(FloatArray, np.asarray(topic_term_matrix, dtype=float))
+    doc_topic_array = cast(FloatArray, np.asarray(doc_topic_matrix, dtype=float))
+
     return TopicModelResult(
         model_type=model_lower,
-        topic_term_matrix=np.asarray(topic_term_matrix),
+        topic_term_matrix=topic_term_array,
         feature_names=feature_names,
-        doc_topic_matrix=np.asarray(doc_topic_matrix),
+        doc_topic_matrix=doc_topic_array,
         document_ids=document_ids,
         metadata=metadata,
     )
@@ -134,11 +140,11 @@ def _collect_documents(text: Iterable[str] | pd.Series) -> tuple[list[str], list
     return documents, ids
 
 
-def _normalise_distances(distances: np.ndarray) -> np.ndarray:
-    similarities = 1.0 / (1.0 + distances)
+def _normalise_distances(distances: FloatArray) -> FloatArray:
+    similarities = np.asarray(1.0 / (1.0 + distances), dtype=float)
     row_sums = similarities.sum(axis=1, keepdims=True)
     row_sums[row_sums == 0.0] = 1.0
-    return np.asarray(similarities / row_sums)
+    return cast(FloatArray, similarities / row_sums)
 
 
 __all__ = ["TopicModelResult", "fit", "describe", "doc_topics"]
