@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from importlib import import_module
-from typing import Any, Protocol, cast, runtime_checkable
+from typing import Any, Protocol, TypeAlias, cast, runtime_checkable
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 @runtime_checkable
@@ -22,12 +23,15 @@ class EmbeddingModel(Protocol):
 DEFAULT_MODEL_NAME = "allenai/specter2_base"
 
 
+FloatArray: TypeAlias = NDArray[np.floating[Any]]
+
+
 def specter2_embed(
     texts: Sequence[str],
     *,
     model: EmbeddingModel | None = None,
     normalize: bool = True,
-) -> np.ndarray:
+) -> FloatArray:
     """Generate SPECTER2 embeddings for a collection of texts.
 
     Args:
@@ -58,14 +62,12 @@ def specter2_embed(
     else:
         runtime_model = model
 
-    embeddings = np.asarray(
-        runtime_model.encode(list(texts), convert_to_numpy=True)
-    )
+    embeddings = np.asarray(runtime_model.encode(list(texts), convert_to_numpy=True))
     if normalize:
         norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
         norms[norms == 0] = 1.0
         embeddings = embeddings / norms
-    return embeddings
+    return cast(FloatArray, embeddings)
 
 
 __all__ = ["DEFAULT_MODEL_NAME", "specter2_embed"]

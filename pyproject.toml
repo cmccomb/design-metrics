@@ -26,6 +26,11 @@ Homepage = "https://example.com/design-metrics"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["design_metrics*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+design_metrics = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -50,6 +55,21 @@ ignore = []
 python_version = "3.10"
 strict = true
 packages = ["design_metrics"]
+namespace_packages = true
+mypy_path = ["src"]
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy",
+    "numpy.typing",
+    "pandas",
+    "networkx",
+    "pypdf",
+    "sklearn.*",
+    "sentence_transformers",
+    "torch",
+]
+ignore_missing_imports = true
 
 [tool.coverage.run]
 branch = true

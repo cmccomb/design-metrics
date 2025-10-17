@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+from typing import Any, TypeAlias
+
 import numpy as np
-import pandas as pd  # type: ignore[import-untyped]
+import pandas as pd
+from numpy.typing import NDArray
 
 from design_metrics.utils.array import ensure_2d_array
 
+FloatArray: TypeAlias = NDArray[np.floating[Any]]
 
-def cronbach_alpha(responses: pd.DataFrame | np.ndarray) -> float:
+
+def cronbach_alpha(responses: pd.DataFrame | FloatArray) -> float:
     """Estimate Cronbach's alpha for a set of Likert-style items.
 
     Args:
@@ -41,8 +46,7 @@ def cronbach_alpha(responses: pd.DataFrame | np.ndarray) -> float:
     item_count = matrix.shape[1]
 
     return float(
-        (item_count / (item_count - 1))
-        * (1 - (item_variances.sum() / total_variance))
+        (item_count / (item_count - 1)) * (1 - (item_variances.sum() / total_variance))
     )
 
 
