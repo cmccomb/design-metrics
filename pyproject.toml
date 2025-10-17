@@ -16,6 +16,7 @@ dependencies = [
     "networkx>=3.0",
     "pypdf>=4.0",
     "scikit-learn>=1.2",
+    "PyYAML>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -68,6 +69,7 @@ module = [
     "sklearn.*",
     "sentence_transformers",
     "torch",
+    "yaml",
 ]
 ignore_missing_imports = true
 
