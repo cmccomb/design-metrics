@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-import networkx as nx  # type: ignore[import-untyped]
+import networkx as nx
 
 
 def degree_centrality(graph: nx.Graph) -> Mapping[Any, float]:
