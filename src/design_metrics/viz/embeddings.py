@@ -2,16 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Literal, cast
+from typing import Any, Literal, TypeAlias, cast
 
 import numpy as np
+from numpy.typing import NDArray
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
+FloatArray: TypeAlias = NDArray[np.floating[Any]]
+
 
 def reduce_embeddings_pca(
-    embeddings: np.ndarray, *, n_components: int = 2
-) -> np.ndarray:
+    embeddings: FloatArray, *, n_components: int = 2
+) -> FloatArray:
     """Reduce embeddings using Principal Component Analysis."""
 
     if embeddings.ndim != 2:
@@ -20,17 +23,17 @@ def reduce_embeddings_pca(
         raise ValueError("n_components must be positive.")
 
     reducer = PCA(n_components=n_components, random_state=0)
-    return cast(np.ndarray, reducer.fit_transform(embeddings))
+    return cast(FloatArray, reducer.fit_transform(embeddings))
 
 
 def reduce_embeddings_tsne(
-    embeddings: np.ndarray,
+    embeddings: FloatArray,
     *,
     n_components: int = 2,
     perplexity: float = 30.0,
     learning_rate: float | Literal["auto"] = "auto",
     random_state: int = 0,
-) -> np.ndarray:
+) -> FloatArray:
     """Reduce embeddings using t-distributed stochastic neighbor embedding."""
 
     if embeddings.ndim != 2:
@@ -43,7 +46,7 @@ def reduce_embeddings_tsne(
         init="pca",
         random_state=random_state,
     )
-    return cast(np.ndarray, reducer.fit_transform(embeddings))
+    return cast(FloatArray, reducer.fit_transform(embeddings))
 
 
 __all__ = ["reduce_embeddings_pca", "reduce_embeddings_tsne"]

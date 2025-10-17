@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Any, TypeAlias, cast
 
 import numpy as np
-from numpy.typing import ArrayLike
+from numpy.typing import ArrayLike, NDArray
+
+FloatArray: TypeAlias = NDArray[np.floating[Any]]
 
 
-def ensure_1d_array(values: ArrayLike | Iterable[float]) -> np.ndarray:
+def ensure_1d_array(values: ArrayLike | Iterable[float]) -> FloatArray:
     """Convert an array-like object into a one-dimensional :class:`numpy.ndarray`.
 
     Args:
@@ -24,16 +27,16 @@ def ensure_1d_array(values: ArrayLike | Iterable[float]) -> np.ndarray:
     array = np.asarray(values, dtype=float)
     if array.ndim != 1:
         raise ValueError("Expected a one-dimensional array.")
-    return array
+    return cast(FloatArray, array)
 
 
-def ensure_2d_array(values: ArrayLike | Iterable[Iterable[float]]) -> np.ndarray:
+def ensure_2d_array(values: ArrayLike | Iterable[Iterable[float]]) -> FloatArray:
     """Convert an array-like object into a two-dimensional array."""
 
     array = np.asarray(values, dtype=float)
     if array.ndim != 2:
         raise ValueError("Expected a two-dimensional array.")
-    return array
+    return cast(FloatArray, array)
 
 
 __all__ = ["ensure_1d_array", "ensure_2d_array"]

@@ -8,14 +8,17 @@ statistical tooling across the project.
 from __future__ import annotations
 
 from math import sqrt
+from typing import Any, TypeAlias
 
 import numpy as np
-from numpy.typing import ArrayLike
+from numpy.typing import ArrayLike, NDArray
 
 from design_metrics.utils.array import ensure_1d_array
 
+FloatArray: TypeAlias = NDArray[np.floating[Any]]
 
-def _validate_samples(sample_a: np.ndarray, sample_b: np.ndarray) -> None:
+
+def _validate_samples(sample_a: FloatArray, sample_b: FloatArray) -> None:
     """Validate the provided samples.
 
     Args:
@@ -32,7 +35,7 @@ def _validate_samples(sample_a: np.ndarray, sample_b: np.ndarray) -> None:
         raise ValueError("Samples must only contain finite numeric values.")
 
 
-def _pooled_standard_deviation(sample_a: np.ndarray, sample_b: np.ndarray) -> float:
+def _pooled_standard_deviation(sample_a: FloatArray, sample_b: FloatArray) -> float:
     """Return the pooled standard deviation for two samples."""
 
     variance_a = np.var(sample_a, ddof=1)
