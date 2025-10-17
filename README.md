@@ -16,38 +16,39 @@ The optional ``text`` extra installs transformer-based embeddings via
 ## Quick start
 
 ```python
-from design_metrics.stats.effect_sizes import cohen_d
+import pandas as pd
 
-# Effect sizes
-d = cohen_d([1, 2, 3], [2, 3, 4])
+import design_metrics as dm
 
-# Reliability metrics remain under the ``design_metrics.hsr`` namespace
-from design_metrics.hsr.reliability import cronbach_alpha
+tables = {
+    "papers": pd.read_csv("papers.csv"),
+    "authors": pd.read_csv("authors.csv"),
+    "authorships": pd.read_csv("authorships.csv"),
+}
 
-alpha = cronbach_alpha([[1, 2, 3], [2, 3, 4], [2, 3, 5]])
+# Validate the adapter output
+report = dm.clean.validate_schema(tables)
+if not report.ok:
+    raise SystemExit(report.to_frame())
 
-# Keyword extraction
-from design_metrics.text.keywords import rake_keywords
+# Clean and subset the corpus
+papers = dm.clean.dedupe_papers(tables["papers"], similarity=0.9)
+authors = dm.clean.normalize_authors(tables["authors"], strategy="lastname_initials")
+ai_subset = dm.filter.by_keywords(papers, ["deep learning", "GAN", "BIM"], mode="lemma")
 
-keywords = rake_keywords("Additive manufacturing enables agile prototyping.")
+# Trend and keyword summaries
+trend = dm.metrics.trend(ai_subset, by="year", groupby=["venue"])
+top_keywords = dm.metrics.topk(ai_subset, field="keywords", k=10, separator=";")
 
-# BibTeX parsing
-from design_metrics.io.bibtex import parse_bibtex_entries
+# Topic modelling (if abstracts are available)
+topic_model = dm.topics.fit(text=ai_subset["abstract"], model="lda", k=10)
+topic_summary = dm.topics.describe(topic_model)
+doc_topics = dm.topics.doc_topics(topic_model)
 
-entries = parse_bibtex_entries("""@article{sample,title={Design}}""")
-
-# PDF processing
-from design_metrics.io.pdf import iter_pdf_texts
-
-for path, text in iter_pdf_texts("/path/to/papers"):
-    print(path, text[:80])
-
-# Embedding visualization
-import numpy as np
-from design_metrics.viz.embeddings import reduce_embeddings_pca
-
-embeddings = np.random.rand(10, 384)
-points = reduce_embeddings_pca(embeddings)
+# Collaboration network analytics
+graph = dm.graphs.coauthors(tables["authorships"])
+stats = dm.graphs.stats(graph)
+communities = dm.graphs.communities(graph)
 ```
 
 ``design_metrics`` is now a namespace package so that future distributions can
