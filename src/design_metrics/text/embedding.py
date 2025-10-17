@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from importlib import import_module
-from typing import Any, Protocol, TypeAlias, cast, runtime_checkable
+from typing import Any, Protocol, cast, runtime_checkable
 
 import numpy as np
-from numpy.typing import NDArray
+
+from design_metrics.utils.array import FloatArray
 
 
 @runtime_checkable
@@ -21,9 +22,6 @@ class EmbeddingModel(Protocol):
 
 
 DEFAULT_MODEL_NAME = "allenai/specter2_base"
-
-
-FloatArray: TypeAlias = NDArray[np.floating[Any]]
 
 
 def specter2_embed(

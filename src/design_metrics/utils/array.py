@@ -39,4 +39,4 @@ def ensure_2d_array(values: ArrayLike | Iterable[Iterable[float]]) -> FloatArray
     return cast(FloatArray, array)
 
 
-__all__ = ["ensure_1d_array", "ensure_2d_array"]
+__all__ = ["FloatArray", "ensure_1d_array", "ensure_2d_array"]

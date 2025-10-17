@@ -2,15 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, TypeAlias
-
 import numpy as np
 import pandas as pd
-from numpy.typing import NDArray
 
-from design_metrics.utils.array import ensure_2d_array
-
-FloatArray: TypeAlias = NDArray[np.floating[Any]]
+from design_metrics.utils.array import FloatArray, ensure_2d_array
 
 
 def cronbach_alpha(responses: pd.DataFrame | FloatArray) -> float:

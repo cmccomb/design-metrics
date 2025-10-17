@@ -8,14 +8,11 @@ statistical tooling across the project.
 from __future__ import annotations
 
 from math import sqrt
-from typing import Any, TypeAlias
 
 import numpy as np
-from numpy.typing import ArrayLike, NDArray
+from numpy.typing import ArrayLike
 
-from design_metrics.utils.array import ensure_1d_array
-
-FloatArray: TypeAlias = NDArray[np.floating[Any]]
+from design_metrics.utils.array import FloatArray, ensure_1d_array
 
 
 def _validate_samples(sample_a: FloatArray, sample_b: FloatArray) -> None:
